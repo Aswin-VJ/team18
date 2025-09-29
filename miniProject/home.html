@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Air Quality Monitor</title>
+  <style>
+    /* Reset some default browser styles */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: linear-gradient(90deg, #3fc0ef, #0288d1);
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    nav.menu {
+      background-color: #0277bd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    nav.menu input[type="text"] {
+      width: 300px;
+      max-width: 90vw;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 25px;
+      outline: none;
+      transition: box-shadow 0.3s ease;
+    }
+
+    nav.menu input[type="text"]:focus {
+      box-shadow: 0 0 8px rgba(255,255,255,0.7);
+    }
+
+    nav.menu button {
+      background-color: #01579b;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 0.55rem 1.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    nav.menu button:hover {
+      background-color: #004c8c;
+    }
+
+    nav.links {
+      background-color: #bbe7f7;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0;
+      box-shadow: inset 0 -1px 3px rgba(0,0,0,0.1);
+    }
+
+    nav.links a {
+      text-decoration: none;
+      color: #0277bd;
+      font-weight: 600;
+      padding: 0.3rem 0.6rem;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      font-size: 1.1rem;
+    }
+
+    nav.links a:hover,
+    nav.links a:focus {
+      background-color: #0277bd;
+      color: white;
+      outline: none;
+    }
+
+    main {
+      flex-grow: 1;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section#intro {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    section#intro p {
+      font-size: 1.25rem;
+      color: #555;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    section#air-quality {
+      background-color: #41bfed;
+      padding: 2rem;
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .box {
+      background-color: #bbe7f7;
+      color: #0277bd;
+      border-radius: 8px;
+      padding: 1.5rem 1rem;
+      box-shadow: 1px 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 2px 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .box h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.3rem;
+    }
+
+    .box p {
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem 0;
+      background-color: #3fc0ef;
+      color: white;
+      font-weight: 600;
+      box-shadow: inset 0 1px 4px rgba(255,255,255,0.3);
+      margin-top: auto;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav.menu input[type="text"] {
+        width: 100%;
+      }
+
+      nav.menu {
+        gap: 0.5rem;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Global Air Quality Monitor</h1>
+  </header>
+
+  <nav class="menu" role="search">
+    <input
+      type="text"
+      id="search"
+      placeholder="Enter city or country"
+      aria-label="Search city or country"
+    />
+    <button id="search-btn" onclick="search()">Search</button>
+  </nav>
+
+  <nav class="links" aria-label="Primary navigation">
+    <a href="home.html">Home</a>
+    <a href="homePage.html">Search</a>
+    <a href="compare.html">Compare</a>
+  </nav>
+
+  <main>
+    <section id="intro">
+      <p>
+        Welcome to the Weather & Air Quality Monitor. Search for any city or country to get
+        the latest air quality index (AQI) and weather conditions in real-time.
+      </p>
+    </section>
+
+    <section id="air-quality" aria-live="polite" aria-label="Air quality information">
+      <div class="box">
+        <h3>City</h3>
+        <p id="city-name">N/A</p>
+      </div>
+      <div class="box">
+        <h3>Air Quality Index (AQI)</h3>
+        <p id="aqi-value">N/A</p>
+      </div>
+      <div class="box">
+        <h3>PM2.5</h3>
+        <p id="pm25-value">N/A</p>
+      </div>
+      <div class="box">
+        <h3>PM10</h3>
+        <p id="pm10-value">N/A</p>
+      </div>
+      <div class="box">
+        <h3>Temperature</h3>
+        <p id="temp-value">N/A</p>
+      </div>
+      <div class="box">
+        <h3>Humidity</h3>
+        <p id="humidity-value">N/A</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Weather & Air Quality Monitor. All rights reserved.
+  </footer>
+
+  <script>
+    // Simulated air quality data (in real scenario, fetch from an API)
+    const airQualityData = {
+      London: {
+        aqi: 75,
+        pm25: 12,
+        pm10: 20,
+        temp: 18,
+        humidity: 65,
+      },
+      Paris: {
+        aqi: 90,
+        pm25: 20,
+        pm10: 25,
+        temp: 21,
+        humidity: 60,
+      },
+      Delhi: {
+        aqi: 190,
+        pm25: 110,
+        pm10: 150,
+        temp: 34,
+        humidity: 40,
+      },
+    };
+
+    function search() {
+      const input = document.getElementById('search').value.trim();
+      const cityName = document.getElementById('city-name');
+      const aqiValue = document.getElementById('aqi-value');
+      const pm25Value = document.getElementById('pm25-value');
+      const pm10Value = document.getElementById('pm10-value');
+      const tempValue = document.getElementById('temp-value');
+      const humidityValue = document.getElementById('humidity-value');
+
+      if (!input) {
+        alert('Please enter a city or country name.');
+        return;
+      }
+
+      const cityData = airQualityData[input];
+
+      if (cityData) {
+        cityName.textContent = input;
+        aqiValue.textContent = cityData.aqi;
+        pm25Value.textContent = `${cityData.pm25} µg/m³`;
+        pm10Value.textContent = `${cityData.pm10} µg/m³`;
+        tempValue.textContent = `${cityData.temp} °C`;
+        humidityValue.textContent = `${cityData.humidity} %`;
+      } else {
+        cityName.textContent = input;
+        aqiValue.textContent = 'Data not available';
+        pm25Value.textContent = '-';
+        pm10Value.textContent = '-';
+        tempValue.textContent = '-';
+        humidityValue.textContent = '-';
+      }
+    }
+  </script>
+</body>
+</html>

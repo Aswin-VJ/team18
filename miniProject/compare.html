@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Compare Air Quality: Two Cities</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #e0f7ff;
+    }
+
+    .head {
+      width: 100%;
+      height: 150px;
+      background-color: #0277bd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .head h1 {
+      font-size: 2.5rem;
+      margin: 0;
+      text-align: center;
+    }
+
+    .menu {
+      width: 100%;
+      height: 80px;
+      background-color: #3fc0ef;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 0 10px;
+    }
+
+    .menu input {
+      width: 200px;
+      height: 40px;
+      padding: 5px 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+    }
+
+    #compare-btn {
+      width: 100px;
+      height: 40px;
+      background-color: #0288d1;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #compare-btn:hover {
+      background-color: #0277bd;
+    }
+
+    #comparison-container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 30px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .city-box {
+      background-color: #41bfed;
+      border-radius: 10px;
+      padding: 20px;
+      color: white;
+      box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+    }
+
+    .city-box h2 {
+      margin-top: 0;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .air-quality {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .box {
+      background-color: #bbe7f7;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+      text-align: center;
+      color: black;
+      font-weight: bold;
+    }
+
+    .box p {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      #comparison-container {
+        grid-template-columns: 1fr;
+      }
+    }
+    .box1 {
+      width: 100%;
+      text-align: center;
+      padding: 20px 0;
+      background-color: #bbe7f7;
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+    }
+    nav.menu {
+      background-color: #0277bd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    nav.menu input[type="text"] {
+      width: 300px;
+      max-width: 90vw;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 25px;
+      outline: none;
+      transition: box-shadow 0.3s ease;
+    }
+
+    nav.menu input[type="text"]:focus {
+      box-shadow: 0 0 8px rgba(255,255,255,0.7);
+    }
+
+    nav.menu button {
+      background-color: #01579b;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 0.55rem 1.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    nav.menu button:hover {
+      background-color: #004c8c;
+    }
+
+    nav.links {
+      background-color: #bbe7f7;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0;
+      box-shadow: inset 0 -1px 3px rgba(0,0,0,0.1);
+    }
+
+    nav.links a {
+      text-decoration: none;
+      color: #0277bd;
+      font-weight: 600;
+      padding: 0.3rem 0.6rem;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      font-size: 1.1rem;
+    }
+
+    nav.links a:hover,
+    nav.links a:focus {
+      background-color: #0277bd;
+      color: white;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="head">
+    <h1>Compare Air Quality: Two Cities</h1>
+  </div>
+
+  <div class="menu">
+    <input type="text" placeholder="Enter first city or country" id="city1" />
+    <input type="text" placeholder="Enter second city or country" id="city2" />
+    <button id="compare-btn" onclick="compareCities()">Compare</button>
+  </div>
+  
+ <nav class="links" aria-label="Primary navigation">
+    <a href="home.html">Home</a>
+    <a href="homePage.html">Search</a>
+    <a href="compare.html">Compare</a>
+  </nav>
+
+  <div class="box1">
+    <h1>QUALITY OF AIR: <span id="txt2"></span></h1>
+  </div>
+
+  <div id="comparison-container">
+    <div class="city-box" id="city1-box">
+      <h2>City 1</h2>
+      <div class="air-quality">
+        <div class="box"><p>CO: <span id="co1">--</span></p></div>
+        <div class="box"><p>NO₂: <span id="no21">--</span></p></div>
+        <div class="box"><p>O₃: <span id="o31">--</span></p></div>
+        <div class="box"><p>SO₂: <span id="so21">--</span></p></div>
+        <div class="box"><p>PM2.5: <span id="pm251">--</span></p></div>
+        <div class="box"><p>PM10: <span id="pm101">--</span></p></div>
+        <div class="box"><p>NH₃: <span id="nh31">--</span></p></div>
+      </div>
+    </div>
+
+    <div class="city-box" id="city2-box">
+      <h2>City 2</h2>
+      <div class="air-quality">
+        <div class="box"><p>CO: <span id="co2">--</span></p></div>
+        <div class="box"><p>NO₂: <span id="no22">--</span></p></div>
+        <div class="box"><p>O₃: <span id="o32">--</span></p></div>
+        <div class="box"><p>SO₂: <span id="so22">--</span></p></div>
+        <div class="box"><p>PM2.5: <span id="pm252">--</span></p></div>
+        <div class="box"><p>PM10: <span id="pm102">--</span></p></div>
+        <div class="box"><p>NH₃: <span id="nh32">--</span></p></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="compare.js"></script>
+</body>
+</html>

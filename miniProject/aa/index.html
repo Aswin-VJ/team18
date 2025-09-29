@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login & Signup</title>
+  <style>
+    .container {
+      max-width: 320px;
+      margin: 50px auto;
+      font-family: Arial, sans-serif;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Signup</h2>
+    <input id="signupUsername" placeholder="Username" />
+    <input id="signupPassword" type="password" placeholder="Password" />
+    <button onclick="signup()">Sign Up</button>
+
+    <h2>Login</h2>
+    <input id="loginUsername" placeholder="Username" />
+    <input id="loginPassword" type="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+
+    <div id="message"></div>
+  </div>
+
+  <script src="auth.js"></script>
+</body>
+</html>
