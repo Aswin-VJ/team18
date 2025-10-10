@@ -1,8 +1,8 @@
 <?php
-// Database config
-$db_host = "sql102.infinityfree.com";   // ✅ MySQL Hostname
-$db_user = "if0_40048739";              // ✅ MySQL Username
-$db_pass = "Aswinvj1404";    // ✅ The password you set in InfinityFree   
+// Database
+$db_host = "sql102.infinityfree.com";   
+$db_user = "if0_40048739";          
+$db_pass = "Aswinvj1404";    
 $db_name = "if0_40048739_users";
 
 // Connect

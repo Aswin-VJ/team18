@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // -------- PHP: Add city to database ----------
 $host = "sql102.infinityfree.com";  
 $user = "if0_40048739";
@@ -8,9 +10,20 @@ $db   = "if0_40048739_users";
 $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) die("DB Connection Failed: " . $conn->connect_error);
 
+// ✅ Save search history with user_id
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['text'])) {
+
+    // Check user login
+    if (!isset($_SESSION['user_id'])) {
+        echo "Error: user not logged in.";
+        exit;
+    }
+
     $text = $conn->real_escape_string($_POST['text']);
-    $conn->query("INSERT INTO history(text, created_at) VALUES('$text', NOW())");
+    $user_id = $_SESSION['user_id'];
+
+    // ✅ Insert with user_id
+    $conn->query("INSERT INTO history(user_id, text, created_at) VALUES('$user_id', '$text', NOW())");
     echo "Added";
     exit;
 }
@@ -109,13 +122,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['text'])) {
 
         .box h2 { margin-bottom: 10px; font-size: 1.2rem; }
         .box b { font-weight: bold; }
-
     </style>
 </head>
 <body>
 
     <div class="head">
         <h1>Global Air Quality Monitor</h1>
+        <p>Welcome, <?= htmlspecialchars($_SESSION['email'] ?? 'Guest') ?>!</p>
     </div>
 
     <nav class="menu">
@@ -123,6 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['text'])) {
         <a href="homePage.php">Search</a>
         <a href="compare.html">Compare</a>
         <a href="history.php">History</a>
+        <a href="logout.php">Logout</a>
     </nav>
 
     <div class="menu">
@@ -175,15 +189,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['text'])) {
             } catch (err) { console.error(err); }
         }
 
-        function addHistory(city) {
-            if (!city.trim()) return;
-            const fd = new FormData();
-            fd.append("text", city);
-            fetch("", { method: "POST", body: fd })
-                .then(res => res.text())
-                .then(res => console.log(res))
-                .catch(err => console.error(err));
-        }
+       function addHistory(city) {
+    if (!city.trim()) return;
+    const fd = new FormData();
+    fd.append("text", city);
+    fetch("history.php?action=add", { method: "POST", body: fd })
+        .then(res => res.text())
+        .then(res => console.log(res))
+        .catch(err => console.error(err));
+}
+
 
         document.getElementById("search-btn").addEventListener("click", () => {
             const city = document.getElementById("search").value.trim();
